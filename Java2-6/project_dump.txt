@@ -1,0 +1,1975 @@
+
+================================================================================
+FILE: D:\PATO4OK2020\Labs\Java2\Java2-6\src\main\java\by\vsu\database\models\Group.java
+================================================================================
+
+package by.vsu.database.models;
+
+public class Group {
+    public static final Integer MAX_AMOUNT_STUDENTS_PART_TIME = 30;
+    public static final Integer MAX_AMOUNT_STUDENTS_FULL_TIME = 20;
+    public static final Integer MAX_COURSE = 6;
+    public static final Integer MAX_NAME_LENGTH = 50;
+    public static final Integer MAX_SPECIALIZATION_LENGTH = 255;
+
+    private Integer id;
+    private String name;
+    private Integer amount_students;
+    private String specialization;
+    private Integer course;
+    private String studyForm;
+
+    public Group(Integer id, String name, Integer amount_students, String specialization, Integer course,
+            String studyForm) {
+        setId(id);
+        setName(name);
+        setStudyForm(studyForm);
+        setAmountStudents(amount_students);
+        setSpecialization(specialization);
+        setCourse(course);
+    }
+
+    public Group(String name, Integer amount_students, String specialization, Integer course, String studyForm) {
+        setName(name);
+        setStudyForm(studyForm);
+        setAmountStudents(amount_students);
+        setSpecialization(specialization);
+        setCourse(course);
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("id должен быть положительным числом!");
+        }
+
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Название группы не может быть пустым!");
+        }
+
+        if (name.length() > MAX_NAME_LENGTH) {
+            throw new IllegalArgumentException("Максимальная длина названия группы: " + MAX_NAME_LENGTH);
+        }
+
+        this.name = name;
+    }
+
+    public Integer getAmountStudents() {
+        return amount_students;
+    }
+
+    public void setAmountStudents(Integer amount_students) {
+        if (amount_students == null || amount_students < 0) {
+            throw new IllegalArgumentException("Количество студентов не может быть отрицательным!");
+        }
+
+        if (studyForm.equals("очная") && amount_students > MAX_AMOUNT_STUDENTS_FULL_TIME) {
+
+            throw new IllegalArgumentException(
+                    "На очной форме может быть максимум " + MAX_AMOUNT_STUDENTS_FULL_TIME + " студентов!");
+        }
+
+        if (studyForm.equals("заочная") && amount_students > MAX_AMOUNT_STUDENTS_PART_TIME) {
+
+            throw new IllegalArgumentException(
+                    "На заочной форме может быть максимум " + MAX_AMOUNT_STUDENTS_PART_TIME + " студентов!");
+        }
+
+        this.amount_students = amount_students;
+    }
+
+    public String getSpecialization() {
+        return specialization;
+    }
+
+    public void setSpecialization(String specialization) {
+
+        if (specialization == null || specialization.isBlank()) {
+            throw new IllegalArgumentException("Специальность не может быть пустой!");
+        }
+
+        if (specialization.length() > MAX_SPECIALIZATION_LENGTH) {
+            throw new IllegalArgumentException("Максимальная длина специальности: " + MAX_SPECIALIZATION_LENGTH);
+        }
+
+        this.specialization = specialization;
+    }
+
+    public Integer getCourse() {
+        return course;
+    }
+
+    public void setCourse(Integer course) {
+        if (course == null || course < 1 || course > MAX_COURSE) {
+            throw new IllegalArgumentException("Курс должен быть от 1 до " + MAX_COURSE);
+        }
+
+        this.course = course;
+    }
+
+    public String getStudyForm() {
+        return studyForm;
+    }
+
+    public void setStudyForm(String studyForm) {
+        if (studyForm == null || studyForm.isBlank()) {
+            throw new IllegalArgumentException("Форма обучения не может быть пустой!");
+        }
+
+        if (!studyForm.equals("очная") && !studyForm.equals("заочная")) {
+            throw new IllegalArgumentException("Форма должна быть 'очная' или 'заочная'");
+        }
+
+        this.studyForm = studyForm;
+    }
+}
+
+
+================================================================================
+FILE: D:\PATO4OK2020\Labs\Java2\Java2-6\src\main\java\by\vsu\database\models\Student.java
+================================================================================
+
+package by.vsu.database.models;
+
+import java.time.LocalDate;
+
+public class Student {
+    public static final Integer MAX_STRING_LENGTH = 255;
+    public static final Integer MAX_FAILED_EXAMS = 2;
+
+    private Integer id;
+    private Integer group_id;
+    private String last_name;
+    private String first_name;
+    private String middle_name;
+    private String sex;
+    private LocalDate birthday;
+    private String fundingType;
+    private Integer failedExams;
+
+    public Student(Integer id, Integer group_id, String last_name, String first_name, String middle_name, String sex,
+            LocalDate birthday, String fundingType, Integer failedExams) {
+        setId(id);
+        setGroupId(group_id);
+        setLastName(last_name);
+        setFirstName(first_name);
+        setMiddleName(middle_name);
+        setSex(sex);
+        setBirthday(birthday);
+        setFundingType(fundingType);
+        setFailedExams(failedExams);
+    }
+
+    public Student(Integer group_id, String last_name, String first_name, String middle_name, String sex,
+            LocalDate birthday, String fundingType, Integer failedExams) {
+        setGroupId(group_id);
+        setLastName(last_name);
+        setFirstName(first_name);
+        setMiddleName(middle_name);
+        setSex(sex);
+        setBirthday(birthday);
+        setFundingType(fundingType);
+        setFailedExams(failedExams);
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("id должен быть положительным числом!");
+        }
+
+        this.id = id;
+    }
+
+    public Integer getGroupId() {
+        return group_id;
+    }
+
+    public void setGroupId(Integer group_id) {
+        if (group_id == null || group_id <= 0) {
+            throw new IllegalArgumentException("group_id должен быть положительным числом!");
+        }
+
+        this.group_id = group_id;
+    }
+
+    public String getLastName() {
+        return last_name;
+    }
+
+    public void setLastName(String last_name) {
+        if (last_name == null || last_name.isBlank()) {
+            throw new IllegalArgumentException("Фамилия не может быть пустой!");
+        }
+
+        if (last_name.length() > MAX_STRING_LENGTH) {
+            throw new IllegalArgumentException(
+                    "Максимальная длина фамилии: "
+                            + MAX_STRING_LENGTH);
+        }
+
+        this.last_name = last_name;
+    }
+
+    public String getFirstName() {
+        return first_name;
+    }
+
+    public void setFirstName(String first_name) {
+        if (first_name == null || first_name.isBlank()) {
+            throw new IllegalArgumentException("Имя не может быть пустым!");
+        }
+
+        if (first_name.length() > MAX_STRING_LENGTH) {
+            throw new IllegalArgumentException("Максимальная длина имени: " + MAX_STRING_LENGTH);
+        }
+
+        this.first_name = first_name;
+    }
+
+    public String getMiddleName() {
+        return middle_name;
+    }
+
+    public void setMiddleName(String middle_name) {
+        if (middle_name == null || middle_name.isBlank()) {
+            throw new IllegalArgumentException("Отчество не может быть пустым!");
+        }
+
+        if (middle_name.length() > MAX_STRING_LENGTH) {
+            throw new IllegalArgumentException("Максимальная длина отчества: " + MAX_STRING_LENGTH);
+        }
+
+        this.middle_name = middle_name;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        if (sex == null || sex.isBlank()) {
+            throw new IllegalArgumentException("Пол не может быть пустым!");
+        }
+
+        if (sex.length() > 1) {
+            throw new IllegalArgumentException("Максимальная длина пола: " + 1);
+        }
+
+        if (!sex.equals("м") && !sex.equals("ж")) {
+            throw new IllegalArgumentException("Пол должен быть 'м' или 'ж'");
+        }
+
+        this.sex = sex;
+    }
+
+    public LocalDate getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(LocalDate birthday) {
+        if (birthday == null) {
+            throw new IllegalArgumentException("Дата рождения не может быть пустой!");
+        }
+
+        if (birthday.isAfter(LocalDate.now())) {
+            throw new IllegalArgumentException("Дата рождения не может быть в будущем!");
+        }
+
+        this.birthday = birthday;
+    }
+
+    public String getFundingType() {
+        return fundingType;
+    }
+
+    public void setFundingType(String fundingType) {
+        if (fundingType == null || fundingType.isBlank()) {
+            throw new IllegalArgumentException("Тип финансирования не может быть пустым!");
+        }
+
+        if (!fundingType.equals("платник") && !fundingType.equals("бюджетник")) {
+            throw new IllegalArgumentException("Форма обучения должна быть 'платник' или 'бюджетник'");
+        }
+
+        this.fundingType = fundingType;
+    }
+
+    public Integer getFailedExams() {
+        return failedExams;
+    }
+
+    public void setFailedExams(Integer failedExams) {
+        if (failedExams == null || failedExams < 0 || failedExams > MAX_FAILED_EXAMS) {
+            throw new IllegalArgumentException(
+                    "Количество несданных экзаменов должно быть от 0 до " + MAX_FAILED_EXAMS);
+        }
+
+        this.failedExams = failedExams;
+    }
+}
+
+
+================================================================================
+FILE: D:\PATO4OK2020\Labs\Java2\Java2-6\src\main\java\by\vsu\database\models\User.java
+================================================================================
+
+package by.vsu.database.models;
+
+public class User {
+    public static final Integer MAX_LOGIN_LENGTH = 50;
+    public static final Integer MAX_STRING_LENGTH = 255;
+
+    private Integer id;
+    private String login;
+    private String password;
+    private String role;
+
+    public User(Integer id, String login, String password, String role) {
+        setId(id);
+        setLogin(login);
+        setPassword(password);
+        setRole(role);
+    }
+
+    public User(String login, String password, String role) {
+        setLogin(login);
+        setPassword(password);
+        setRole(role);
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("id должен быть положительным числом!");
+        }
+
+        this.id = id;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        if (login == null || login.isBlank()) {
+            throw new IllegalArgumentException("Логин не может быть пустым!");
+        }
+
+        if (login.length() > MAX_LOGIN_LENGTH) {
+            throw new IllegalArgumentException("Максимальная длина логина: " + MAX_LOGIN_LENGTH);
+        }
+
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        if (password == null || password.isBlank()) {
+            throw new IllegalArgumentException("Пароль не может быть пустым!");
+        }
+
+        if (password.length() > MAX_STRING_LENGTH) {
+            throw new IllegalArgumentException("Максимальная длина пароля: " + MAX_STRING_LENGTH);
+        }
+
+        this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        if (role == null || role.isBlank()) {
+            throw new IllegalArgumentException("Роль не может быть пустой!");
+        }
+
+        if (role.length() > MAX_STRING_LENGTH) {
+            throw new IllegalArgumentException("Максимальная длина роли: " + MAX_STRING_LENGTH);
+        }
+
+        if (!role.equals("common") && !role.equals("dean") && !role.equals("admin")) {
+            throw new IllegalArgumentException("Роль должна быть 'common', 'dean' или 'admin'");
+        }
+
+        this.role = role;
+    }
+}
+
+
+================================================================================
+FILE: D:\PATO4OK2020\Labs\Java2\Java2-6\src\main\java\by\vsu\database\storages\GroupsStorage.java
+================================================================================
+
+package by.vsu.database.storages;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Collection;
+
+import by.vsu.database.models.Group;
+
+public class GroupsStorage {
+    private static String jdbcUrl = null;
+    private static String jdbcUser = null;
+    private static String jdbcPassword = null;
+
+    public static void init(
+            String jdbcDriver,
+            String jdbcUrl,
+            String jdbcUser,
+            String jdbcPassword)
+            throws ClassNotFoundException {
+
+        Class.forName(jdbcDriver);
+
+        GroupsStorage.jdbcUrl = jdbcUrl;
+        GroupsStorage.jdbcUser = jdbcUser;
+        GroupsStorage.jdbcPassword = jdbcPassword;
+    }
+
+    private static Connection getConnection()
+            throws SQLException {
+
+        return DriverManager.getConnection(
+                jdbcUrl,
+                jdbcUser,
+                jdbcPassword);
+    }
+
+    private static void validateGroup(Group group) {
+
+        if (group.getName() == null
+                || group.getName().isBlank()) {
+
+            throw new IllegalArgumentException(
+                    "Название группы пустое");
+        }
+
+        if (group.getSpecialization() == null
+                || group.getSpecialization().isBlank()) {
+
+            throw new IllegalArgumentException(
+                    "Специальность пустая");
+        }
+
+        if (group.getCourse() < 1
+                || group.getCourse() > 6) {
+
+            throw new IllegalArgumentException(
+                    "Курс должен быть от 1 до 6");
+        }
+
+        if (!group.getStudyForm().equals("очная")
+                && !group.getStudyForm().equals("заочная")) {
+
+            throw new IllegalArgumentException(
+                    "Неверная форма обучения");
+        }
+    }
+
+    public static Group parseGroupFromResultSet(ResultSet r)
+            throws SQLException {
+
+        return new Group(
+                r.getInt("id"),
+                r.getString("name"),
+                r.getInt("amount_students"),
+                r.getString("specialization"),
+                r.getInt("course"),
+                r.getString("study_form"));
+    }
+
+    public static void setGroupInStatement(
+            PreparedStatement s,
+            Group group)
+            throws SQLException {
+
+        s.setString(1, group.getName());
+        s.setString(2, group.getSpecialization());
+        s.setInt(3, group.getCourse());
+        s.setString(4, group.getStudyForm());
+    }
+
+    public static Collection<Group> readAll()
+            throws SQLException {
+
+        String sql = "SELECT * FROM groups";
+
+        try (Connection c = getConnection();
+                Statement s = c.createStatement();
+                ResultSet r = s.executeQuery(sql)) {
+
+            Collection<Group> groups = new ArrayList<>();
+
+            while (r.next()) {
+
+                groups.add(
+                        parseGroupFromResultSet(r));
+            }
+
+            return groups;
+        }
+    }
+
+    public static Collection<Group> readAll(String sort)
+            throws SQLException {
+
+        if (!sort.equals("name")
+                && !sort.equals("amount_students")
+                && !sort.equals("specialization")
+                && !sort.equals("course")
+                && !sort.equals("study_form")) {
+
+            sort = "id";
+        }
+
+        String sql = "SELECT * FROM groups ORDER BY " + sort;
+
+        try (Connection c = getConnection();
+                Statement s = c.createStatement();
+                ResultSet r = s.executeQuery(sql)) {
+
+            Collection<Group> groups = new ArrayList<>();
+
+            while (r.next()) {
+
+                groups.add(
+                        parseGroupFromResultSet(r));
+            }
+
+            return groups;
+        }
+    }
+
+    public static Group readById(Integer id)
+            throws SQLException {
+
+        String sql = "SELECT * FROM groups WHERE id=?";
+
+        try (Connection c = getConnection();
+                PreparedStatement s = c.prepareStatement(sql)) {
+
+            s.setInt(1, id);
+
+            try (ResultSet r = s.executeQuery()) {
+
+                if (r.next()) {
+                    return parseGroupFromResultSet(r);
+                }
+
+                return null;
+            }
+        }
+    }
+
+    public static void create(Group group)
+            throws SQLException {
+
+        validateGroup(group);
+
+        if (existsByName(group.getName())) {
+
+            throw new IllegalArgumentException(
+                    "Группа уже существует");
+        }
+
+        String sql = "INSERT INTO groups " +
+                "(name, amount_students, " +
+                "specialization, course, study_form) " +
+                "VALUES (?, 0, ?, ?, ?)";
+
+        try (Connection c = getConnection();
+                PreparedStatement s = c.prepareStatement(sql)) {
+
+            setGroupInStatement(s, group);
+
+            s.executeUpdate();
+        }
+    }
+
+    public static void update(Group group)
+            throws SQLException {
+
+        validateGroup(group);
+
+        String sql = "UPDATE groups SET " +
+                "name=?, " +
+                "specialization=?, " +
+                "course=?, " +
+                "study_form=? " +
+                "WHERE id=?";
+
+        try (Connection c = getConnection();
+                PreparedStatement s = c.prepareStatement(sql)) {
+
+            setGroupInStatement(s, group);
+
+            s.setInt(5, group.getId());
+
+            s.executeUpdate();
+        }
+    }
+
+    public static void delete(Integer id)
+            throws SQLException {
+
+        if (!StudentsStorage
+                .readByGroupId(id)
+                .isEmpty()) {
+
+            throw new IllegalArgumentException(
+                    "Нельзя удалить группу со студентами");
+        }
+
+        String sql = "DELETE FROM groups WHERE id=?";
+
+        try (Connection c = getConnection();
+                PreparedStatement s = c.prepareStatement(sql)) {
+
+            s.setInt(1, id);
+
+            s.executeUpdate();
+        }
+    }
+
+    public static boolean existsByName(String name)
+            throws SQLException {
+
+        String sql = "SELECT * FROM groups WHERE name=?";
+
+        try (Connection c = getConnection();
+                PreparedStatement s = c.prepareStatement(sql)) {
+
+            s.setString(1, name);
+
+            try (ResultSet r = s.executeQuery()) {
+
+                return r.next();
+            }
+        }
+    }
+
+    public static void updateStudentsAmount(
+            Integer groupId)
+            throws SQLException {
+
+        String sql = "UPDATE groups " +
+                "SET amount_students=(" +
+                "   SELECT COUNT(*) " +
+                "   FROM students " +
+                "   WHERE group_id=?" +
+                ") " +
+                "WHERE id=?";
+
+        try (Connection c = getConnection();
+                PreparedStatement s = c.prepareStatement(sql)) {
+
+            s.setInt(1, groupId);
+            s.setInt(2, groupId);
+
+            s.executeUpdate();
+        }
+    }
+}
+
+
+================================================================================
+FILE: D:\PATO4OK2020\Labs\Java2\Java2-6\src\main\java\by\vsu\database\storages\StoragesInitializer.java
+================================================================================
+
+package by.vsu.database.storages;
+
+public class StoragesInitializer {
+    public static void init(String jdbcDriver, String jdbcUrl, String jdbcUser, String jdbcPassword)
+            throws ClassNotFoundException {
+        GroupsStorage.init(jdbcDriver, jdbcUrl, jdbcUser, jdbcPassword);
+        StudentsStorage.init(jdbcDriver, jdbcUrl, jdbcUser, jdbcPassword);
+        UsersStorage.init(jdbcDriver, jdbcUrl, jdbcUser, jdbcPassword);
+    }
+}
+
+
+================================================================================
+FILE: D:\PATO4OK2020\Labs\Java2\Java2-6\src\main\java\by\vsu\database\storages\StudentsStorage.java
+================================================================================
+
+package by.vsu.database.storages;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
+
+import by.vsu.database.models.Student;
+
+public class StudentsStorage {
+    private static String jdbcUrl = null;
+    private static String jdbcUser = null;
+    private static String jdbcPassword = null;
+
+    public static void init(String jdbcDriver, String jdbcUrl, String jdbcUser, String jdbcPassword)
+            throws ClassNotFoundException {
+
+        Class.forName(jdbcDriver);
+
+        StudentsStorage.jdbcUrl = jdbcUrl;
+        StudentsStorage.jdbcUser = jdbcUser;
+        StudentsStorage.jdbcPassword = jdbcPassword;
+    }
+
+    private static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(
+                jdbcUrl,
+                jdbcUser,
+                jdbcPassword);
+    }
+
+    private static void validateStudent(Student student) {
+
+        if (student.getGroupId() <= 0) {
+            throw new IllegalArgumentException(
+                    "Неверная группа");
+        }
+
+        if (student.getLastName() == null
+                || student.getLastName().isBlank()) {
+
+            throw new IllegalArgumentException(
+                    "Фамилия пустая");
+        }
+
+        if (student.getFirstName() == null
+                || student.getFirstName().isBlank()) {
+
+            throw new IllegalArgumentException(
+                    "Имя пустое");
+        }
+
+        if (student.getMiddleName() == null
+                || student.getMiddleName().isBlank()) {
+
+            throw new IllegalArgumentException(
+                    "Отчество пустое");
+        }
+
+        if (!student.getSex().equals("м")
+                && !student.getSex().equals("ж")) {
+
+            throw new IllegalArgumentException(
+                    "Неверный пол");
+        }
+
+        if (!student.getFundingType().equals("платник")
+                && !student.getFundingType().equals("бюджетник")) {
+
+            throw new IllegalArgumentException(
+                    "Неверный тип обучения");
+        }
+
+        if (student.getFailedExams() < 0
+                || student.getFailedExams() > 2) {
+
+            throw new IllegalArgumentException(
+                    "Количество несданных экзаменов должно быть от 0 до 2");
+        }
+
+        if (student.getBirthday().isAfter(LocalDate.now())) {
+
+            throw new IllegalArgumentException(
+                    "Дата рождения некорректна");
+        }
+    }
+
+    public static Student parseStudentFromResultSet(ResultSet r)
+            throws SQLException {
+
+        return new Student(
+                r.getInt("id"),
+                r.getInt("group_id"),
+                r.getString("last_name"),
+                r.getString("first_name"),
+                r.getString("middle_name"),
+                r.getString("sex"),
+                r.getDate("birthday").toLocalDate(),
+                r.getString("funding_type"),
+                r.getInt("failed_exams"));
+    }
+
+    public static void setStudentInStatement(
+            PreparedStatement s,
+            Student student) throws SQLException {
+
+        s.setInt(1, student.getGroupId());
+        s.setString(2, student.getLastName());
+        s.setString(3, student.getFirstName());
+        s.setString(4, student.getMiddleName());
+        s.setString(5, student.getSex());
+        s.setDate(6, Date.valueOf(student.getBirthday()));
+        s.setString(7, student.getFundingType());
+        s.setInt(8, student.getFailedExams());
+    }
+
+    public static Collection<Student> readAll()
+            throws SQLException {
+
+        String sql = "SELECT * FROM students";
+
+        try (Connection c = getConnection();
+                Statement s = c.createStatement();
+                ResultSet r = s.executeQuery(sql)) {
+
+            Collection<Student> students = new ArrayList<>();
+
+            while (r.next()) {
+                students.add(
+                        parseStudentFromResultSet(r));
+            }
+
+            return students;
+        }
+    }
+
+    public static Collection<Student> readAll(String sort)
+            throws SQLException {
+
+        if (!sort.equals("group_id")
+                && !sort.equals("last_name")
+                && !sort.equals("first_name")
+                && !sort.equals("middle_name")
+                && !sort.equals("sex")
+                && !sort.equals("birthday")
+                && !sort.equals("funding_type")
+                && !sort.equals("failed_exams")) {
+
+            sort = "id";
+        }
+
+        String sql = "SELECT * FROM students ORDER BY " + sort;
+
+        try (Connection c = getConnection();
+                Statement s = c.createStatement();
+                ResultSet r = s.executeQuery(sql)) {
+
+            Collection<Student> students = new ArrayList<>();
+
+            while (r.next()) {
+                students.add(
+                        parseStudentFromResultSet(r));
+            }
+
+            return students;
+        }
+    }
+
+    public static Student readById(Integer id)
+            throws SQLException {
+
+        String sql = "SELECT * FROM students WHERE id=?";
+
+        try (Connection c = getConnection();
+                PreparedStatement s = c.prepareStatement(sql)) {
+
+            s.setInt(1, id);
+
+            try (ResultSet r = s.executeQuery()) {
+
+                if (r.next()) {
+                    return parseStudentFromResultSet(r);
+                }
+
+                return null;
+            }
+        }
+    }
+
+    public static void create(Student student)
+            throws SQLException {
+
+        validateStudent(student);
+
+        String sql = "INSERT INTO students " +
+                "(group_id, last_name, first_name, " +
+                "middle_name, sex, birthday, " +
+                "funding_type, failed_exams) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection c = getConnection();
+                PreparedStatement s = c.prepareStatement(sql)) {
+
+            setStudentInStatement(s, student);
+
+            s.executeUpdate();
+        }
+
+        GroupsStorage.updateStudentsAmount(
+                student.getGroupId());
+    }
+
+    public static void update(Student student)
+            throws SQLException {
+
+        validateStudent(student);
+
+        Student oldStudent = readById(student.getId());
+
+        String sql = "UPDATE students SET " +
+                "group_id=?, " +
+                "last_name=?, " +
+                "first_name=?, " +
+                "middle_name=?, " +
+                "sex=?, " +
+                "birthday=?, " +
+                "funding_type=?, " +
+                "failed_exams=? " +
+                "WHERE id=?";
+
+        try (Connection c = getConnection();
+                PreparedStatement s = c.prepareStatement(sql)) {
+
+            setStudentInStatement(s, student);
+
+            s.setInt(9, student.getId());
+
+            s.executeUpdate();
+        }
+
+        GroupsStorage.updateStudentsAmount(
+                student.getGroupId());
+
+        if (!oldStudent.getGroupId()
+                .equals(student.getGroupId())) {
+
+            GroupsStorage.updateStudentsAmount(
+                    oldStudent.getGroupId());
+        }
+    }
+
+    public static void delete(Integer id)
+            throws SQLException {
+
+        Student student = readById(id);
+
+        String sql = "DELETE FROM students WHERE id=?";
+
+        try (Connection c = getConnection();
+                PreparedStatement s = c.prepareStatement(sql)) {
+
+            s.setInt(1, id);
+
+            s.executeUpdate();
+        }
+
+        if (student != null) {
+
+            GroupsStorage.updateStudentsAmount(student.getGroupId());
+        }
+    }
+
+    public static Collection<Student> readByGroupId(
+            Integer groupId) throws SQLException {
+
+        String sql = "SELECT * FROM students " +
+                "WHERE group_id=?";
+
+        try (Connection c = getConnection();
+                PreparedStatement s = c.prepareStatement(sql)) {
+
+            s.setInt(1, groupId);
+
+            try (ResultSet r = s.executeQuery()) {
+
+                Collection<Student> students = new ArrayList<>();
+
+                while (r.next()) {
+
+                    students.add(
+                            parseStudentFromResultSet(r));
+                }
+
+                return students;
+            }
+        }
+    }
+
+    public static Collection<Student> readByGroupId(
+            Integer groupId,
+            String sort) throws SQLException {
+
+        if (!sort.equals("last_name")
+                && !sort.equals("first_name")
+                && !sort.equals("middle_name")
+                && !sort.equals("sex")
+                && !sort.equals("birthday")
+                && !sort.equals("funding_type")
+                && !sort.equals("failed_exams")) {
+
+            sort = "id";
+        }
+
+        String sql = "SELECT * FROM students " +
+                "WHERE group_id=? " +
+                "ORDER BY " + sort;
+
+        try (Connection c = getConnection();
+                PreparedStatement s = c.prepareStatement(sql)) {
+
+            s.setInt(1, groupId);
+
+            try (ResultSet r = s.executeQuery()) {
+
+                Collection<Student> students = new ArrayList<>();
+
+                while (r.next()) {
+
+                    students.add(
+                            parseStudentFromResultSet(r));
+                }
+
+                return students;
+            }
+        }
+    }
+}
+
+
+================================================================================
+FILE: D:\PATO4OK2020\Labs\Java2\Java2-6\src\main\java\by\vsu\database\storages\UsersStorage.java
+================================================================================
+
+package by.vsu.database.storages;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Collection;
+
+import by.vsu.database.models.User;
+
+public class UsersStorage {
+    private static String jdbcUrl = null;
+    private static String jdbcUser = null;
+    private static String jdbcPassword = null;
+
+    public static void init(String jdbcDriver, String jdbcUrl, String jdbcUser, String jdbcPassword)
+            throws ClassNotFoundException {
+        Class.forName(jdbcDriver);
+        UsersStorage.jdbcUrl = jdbcUrl;
+        UsersStorage.jdbcUser = jdbcUser;
+        UsersStorage.jdbcPassword = jdbcPassword;
+    }
+
+    private static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(jdbcUrl, jdbcUser, jdbcPassword);
+    }
+
+    public static User parseUserFromResultSet(ResultSet r) throws SQLException {
+        return new User(
+                r.getInt("id"),
+                r.getString("login"),
+                r.getString("password"),
+                r.getString("role"));
+    }
+
+    public static void setUserInStatement(PreparedStatement s, User user) throws SQLException {
+        s.setString(1, user.getLogin());
+        s.setString(2, user.getPassword());
+        s.setString(3, user.getRole());
+    }
+
+    public static Collection<User> readAll(String sort) throws SQLException {
+        String sql = "SELECT * FROM users ORDER BY " + sort;
+
+        try (Connection c = getConnection(); Statement s = c.createStatement(); ResultSet r = s.executeQuery(sql)) {
+            Collection<User> users = new ArrayList<>();
+            while (r.next()) {
+                users.add(parseUserFromResultSet(r));
+            }
+            return users;
+        }
+    }
+
+    public static Collection<User> readAll() throws SQLException {
+        String sql = "SELECT * FROM users";
+
+        try (Connection c = getConnection(); Statement s = c.createStatement(); ResultSet r = s.executeQuery(sql)) {
+            Collection<User> users = new ArrayList<>();
+            while (r.next()) {
+                users.add(parseUserFromResultSet(r));
+            }
+            return users;
+        }
+    }
+
+    public static User readById(Integer id) throws SQLException {
+        String sql = "SELECT * FROM users WHERE id = ?";
+
+        try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement(sql)) {
+            s.setInt(1, id);
+            try (ResultSet r = s.executeQuery()) {
+                User user = null;
+                if (r.next()) {
+                    user = parseUserFromResultSet(r);
+                }
+                return user;
+            }
+        }
+    }
+
+    public static User readByLogin(String login) throws SQLException {
+        String sql = "SELECT * FROM users WHERE login = ?";
+
+        try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement(sql)) {
+            s.setString(1, login);
+            try (ResultSet r = s.executeQuery()) {
+                User user = null;
+                if (r.next()) {
+                    user = parseUserFromResultSet(r);
+                }
+                return user;
+            }
+        }
+    }
+
+    public static void create(User user) throws SQLException {
+        String sql = "INSERT INTO users (login, password, role) VALUES (?, ?, ?)";
+
+        try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement(sql)) {
+            setUserInStatement(s, user);
+            s.executeUpdate();
+        }
+    }
+
+    public static void update(User user) throws SQLException {
+        String sql = "UPDATE users SET login=?, password=?, role=? WHERE id=?";
+
+        try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement(sql)) {
+            setUserInStatement(s, user);
+            s.setInt(4, user.getId());
+            s.executeUpdate();
+        }
+    }
+
+    public static void delete(Integer id) throws SQLException {
+        String sql = "DELETE FROM users WHERE id=?";
+
+        try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement(sql)) {
+            s.setInt(1, id);
+            s.executeUpdate();
+        }
+    }
+
+    public static User checkUser(String login, String password) throws SQLException {
+        String sql = "SELECT * FROM users WHERE login=? AND password=?";
+
+        try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement(sql)) {
+            s.setString(1, login);
+            s.setString(2, password);
+            try (ResultSet r = s.executeQuery()) {
+                if (r.next()) {
+                    return parseUserFromResultSet(r);
+                }
+                return null;
+            }
+        }
+    }
+
+    public static User authorize(String login, String password) throws SQLException {
+        String sql = "SELECT * FROM users WHERE login=? AND password=?";
+
+        try (Connection c = getConnection(); PreparedStatement s = c.prepareStatement(sql)) {
+            s.setString(1, login);
+            s.setString(2, password);
+
+            try (ResultSet r = s.executeQuery()) {
+                User user = null;
+                if (r.next()) {
+                    user = parseUserFromResultSet(r);
+                }
+                return user;
+            }
+        }
+    }
+}
+
+
+================================================================================
+FILE: D:\PATO4OK2020\Labs\Java2\Java2-6\src\main\java\by\vsu\servlets\AppListener.java
+================================================================================
+
+package by.vsu.servlets;
+
+import by.vsu.database.storages.StoragesInitializer;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
+import jakarta.servlet.annotation.WebListener;
+
+@WebListener
+public class AppListener implements ServletContextListener {
+    @Override
+    public void contextInitialized(ServletContextEvent sce) {
+        try {
+            StoragesInitializer.init("org.postgresql.Driver",
+                    "jdbc:postgresql://localhost:5432/university_java2_6_db", "postgres", "postgres");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
+
+
+
+================================================================================
+FILE: D:\PATO4OK2020\Labs\Java2\Java2-6\src\main\java\by\vsu\servlets\LoginServlet.java
+================================================================================
+
+package by.vsu.servlets;
+
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.sql.SQLException;
+
+import by.vsu.database.models.User;
+import by.vsu.database.storages.UsersStorage;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+@WebServlet("/login.html")
+public class LoginServlet extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        process(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        process(req, resp);
+    }
+
+    private void process(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String login = req.getParameter("login");
+        String password = req.getParameter("password");
+        if (login != null && password != null) {
+            try {
+                User user = UsersStorage.checkUser(login, password);
+                if (user != null) {
+                    HttpSession session = req.getSession();
+                    session.setAttribute("user", user);
+                    resp.sendRedirect(req.getContextPath());
+                } else {
+                    String message = "Имя пользователя или пароль неопознанны";
+                    String url = req.getContextPath() + "/login-form.jsp?message="
+                            + URLEncoder.encode(message, "UTF-8");
+                    resp.sendRedirect(url);
+                }
+            } catch (SQLException e) {
+                throw new ServletException(e);
+            }
+        } else {
+            resp.sendRedirect(req.getContextPath() + "/login-form.jsp");
+        }
+    }
+}
+
+
+================================================================================
+FILE: D:\PATO4OK2020\Labs\Java2\Java2-6\src\main\java\by\vsu\servlets\LogoutServlet.java
+================================================================================
+
+package by.vsu.servlets;
+
+import java.io.IOException;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+@WebServlet("/logout.html")
+public class LogoutServlet extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession(false);
+        if (session != null) {
+            session.removeAttribute("user");
+            session.invalidate();
+        }
+        resp.sendRedirect(req.getContextPath());
+    }
+}
+
+
+================================================================================
+FILE: D:\PATO4OK2020\Labs\Java2\Java2-6\src\main\java\by\vsu\servlets\StudentsGroupsFilter.java
+================================================================================
+
+package by.vsu.servlets;
+
+import java.io.IOException;
+
+import by.vsu.database.models.User;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+@WebFilter({
+        "/students/save.html",
+        "/students/delete.html",
+        "/students/edit.html",
+        "/groups/edit.html",
+        "/groups/delete.html",
+        "/groups/save.html"
+})
+public class StudentsGroupsFilter implements Filter {
+
+    @Override
+    public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
+            throws IOException, ServletException {
+
+        HttpServletRequest httpReq = (HttpServletRequest) req;
+        HttpServletResponse httpResp = (HttpServletResponse) resp;
+        HttpSession session = httpReq.getSession(false);
+
+        if (session != null) {
+            Object userAttr = session.getAttribute("user");
+
+            if (userAttr instanceof User user) {
+                if (user.getRole().equals("dean")) {
+                    chain.doFilter(req, resp);
+                    return;
+                }
+
+                httpResp.sendError(HttpServletResponse.SC_FORBIDDEN, "Доступ запрещен. Только для dean!");
+                return;
+            }
+        }
+
+        httpResp.sendRedirect(httpReq.getContextPath() + "/login-form.jsp");
+    }
+}
+
+
+================================================================================
+FILE: D:\PATO4OK2020\Labs\Java2\Java2-6\src\main\java\by\vsu\servlets\UsersFilter.java
+================================================================================
+
+package by.vsu.servlets;
+
+import java.io.IOException;
+
+import by.vsu.database.models.User;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+@WebFilter("/users/*")
+public class UsersFilter implements Filter {
+
+    @Override
+    public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
+            throws IOException, ServletException {
+
+        HttpServletRequest httpReq = (HttpServletRequest) req;
+        HttpServletResponse httpResp = (HttpServletResponse) resp;
+        HttpSession session = httpReq.getSession(false);
+
+        if (session != null) {
+            Object userAttr = session.getAttribute("user");
+
+            if (userAttr instanceof User user) {
+                if (user.getRole().equals("admin")) {
+                    chain.doFilter(req, resp);
+                    return;
+                }
+
+                httpResp.sendError(HttpServletResponse.SC_FORBIDDEN, "Доступ запрещен. Только для admin!");
+                return;
+            }
+        }
+
+
+        httpResp.sendRedirect(httpReq.getContextPath() + "/login-form.jsp");
+    }
+}
+
+
+================================================================================
+FILE: D:\PATO4OK2020\Labs\Java2\Java2-6\src\main\java\by\vsu\servlets\groups\DeleteServlet.java
+================================================================================
+
+package by.vsu.servlets.groups;
+
+import java.io.IOException;
+import java.sql.SQLException;
+
+import by.vsu.database.storages.GroupsStorage;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+@WebServlet("/groups/delete.html")
+public class DeleteServlet extends HttpServlet {
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String[] ids = req.getParameterValues("id");
+        if (ids == null) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Выберить хотя бы 1 группу для удаления!");
+            return;
+        }
+        for (String id : ids) {
+            try {
+                GroupsStorage.delete(Integer.parseInt(id));
+            } catch (NumberFormatException e) {
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Некорректный id: " + id + "!");
+            } catch (SQLException e) {
+                throw new ServletException(e);
+            }
+        }
+
+        resp.sendRedirect(req.getContextPath() + "/groups/index.html");
+    }
+}
+
+
+================================================================================
+FILE: D:\PATO4OK2020\Labs\Java2\Java2-6\src\main\java\by\vsu\servlets\groups\EditServlet.java
+================================================================================
+
+package by.vsu.servlets.groups;
+
+import java.io.IOException;
+import java.sql.SQLException;
+
+import by.vsu.database.models.Group;
+import by.vsu.database.storages.GroupsStorage;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+@WebServlet("/groups/edit.html")
+public class EditServlet extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String idParam = req.getParameter("id");
+
+        try {
+            if (idParam != null) {
+                Integer id = Integer.parseInt(idParam);
+                Group group = GroupsStorage.readById(id);
+                req.setAttribute("group", group);
+            }
+        } catch (NumberFormatException e) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Некорректный id!");
+            return;
+        } catch (SQLException e) {
+            throw new ServletException(e);
+        }
+
+        getServletContext().getRequestDispatcher("/WEB-INF/jsp/groups/edit.jsp").forward(req, resp);
+    }
+}
+
+
+================================================================================
+FILE: D:\PATO4OK2020\Labs\Java2\Java2-6\src\main\java\by\vsu\servlets\groups\ListServlet.java
+================================================================================
+
+package by.vsu.servlets.groups;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.Collection;
+
+import by.vsu.database.models.Group;
+import by.vsu.database.storages.GroupsStorage;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+@WebServlet("/groups/index.html")
+public class ListServlet extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            String sortParam = req.getParameter("sort");
+            Collection<Group> groups;
+            if (sortParam != null) {
+                groups = GroupsStorage.readAll(sortParam);
+            } else {
+                groups = GroupsStorage.readAll();
+            }
+            req.setAttribute("groups", groups);
+            getServletContext().getRequestDispatcher("/WEB-INF/jsp/groups/list.jsp").forward(req, resp);
+        } catch (SQLException e) {
+            throw new ServletException(e);
+        }
+    }
+}
+
+
+================================================================================
+FILE: D:\PATO4OK2020\Labs\Java2\Java2-6\src\main\java\by\vsu\servlets\groups\SaveServlet.java
+================================================================================
+
+package by.vsu.servlets.groups;
+
+import java.io.IOException;
+
+import by.vsu.database.models.Group;
+import by.vsu.database.storages.GroupsStorage;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+@WebServlet("/groups/save.html")
+public class SaveServlet extends HttpServlet {
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
+
+        try {
+            Group group = new Group(
+                    req.getParameter("name"),
+                    Integer.parseInt(req.getParameter("amount_students")),
+                    req.getParameter("specialization"),
+                    Integer.parseInt(req.getParameter("course")),
+                    req.getParameter("studyForm"));
+
+            try {
+                String id = req.getParameter("id");
+                if (id == null || id.isBlank()) {
+                    GroupsStorage.create(group);
+                } else {
+                    group.setId(Integer.parseInt(id));
+                    GroupsStorage.update(group);
+                }
+            } catch (NumberFormatException e) {
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Некорректный id!");
+            }
+
+            resp.sendRedirect(req.getContextPath() + "/groups/index.html");
+        } catch (IllegalArgumentException e) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
+    }
+}
+
+
+================================================================================
+FILE: D:\PATO4OK2020\Labs\Java2\Java2-6\src\main\java\by\vsu\servlets\students\DeleteServlet.java
+================================================================================
+
+package by.vsu.servlets.students;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import by.vsu.database.storages.StudentsStorage;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+@WebServlet("/students/delete.html")
+public class DeleteServlet extends HttpServlet {
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String[] ids = req.getParameterValues("id");
+        if (ids == null) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Выберить хотя бы 1 студента для удаления!");
+            return;
+        }
+
+        for (String id : ids) {
+            try {
+                StudentsStorage.delete(Integer.parseInt(id));
+            } catch (NumberFormatException e) {
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Некорректный id: " + id + "!");
+            } catch (SQLException e) {
+                throw new ServletException(e);
+            }
+            
+            resp.sendRedirect(req.getContextPath() + "/students/index.html");
+        }
+    }
+}
+
+
+================================================================================
+FILE: D:\PATO4OK2020\Labs\Java2\Java2-6\src\main\java\by\vsu\servlets\students\EditServlet.java
+================================================================================
+
+package by.vsu.servlets.students;
+
+import java.io.IOException;
+import java.sql.SQLException;
+
+import by.vsu.database.models.Student;
+import by.vsu.database.storages.StudentsStorage;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+@WebServlet("/students/edit.html")
+public class EditServlet extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            String idParam = req.getParameter("id");
+
+            if (idParam != null) {
+                Integer id = Integer.parseInt(idParam);
+                Student student = StudentsStorage.readById(id);
+                req.setAttribute("student", student);
+            }
+        } catch (NumberFormatException e) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Некорректный id!");
+            return;
+        } catch (SQLException e) {
+            throw new ServletException(e);
+        }
+
+        getServletContext().getRequestDispatcher("/WEB-INF/jsp/students/edit.jsp").forward(req, resp);
+    }
+}
+
+
+================================================================================
+FILE: D:\PATO4OK2020\Labs\Java2\Java2-6\src\main\java\by\vsu\servlets\students\ListServlet.java
+================================================================================
+
+package by.vsu.servlets.students;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.Collection;
+
+import by.vsu.database.models.Student;
+import by.vsu.database.storages.StudentsStorage;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+@WebServlet("/students/index.html")
+public class ListServlet extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            String id = req.getParameter("id");
+            String sortParam = req.getParameter("sort");
+            Collection<Student> students;
+            if (id != null && sortParam != null) {
+                students = StudentsStorage.readByGroupId(Integer.parseInt(id), sortParam);
+            } else if (id != null && sortParam == null) {
+                students = StudentsStorage.readByGroupId(Integer.parseInt(id));
+            }
+
+            if (sortParam != null) {
+                students = StudentsStorage.readAll(sortParam);
+            } else {
+                students = StudentsStorage.readAll();
+            }
+
+            req.setAttribute("students", students);
+            getServletContext().getRequestDispatcher("/WEB-INF/jsp/students/list.jsp").forward(req, resp);
+        } catch (SQLException e) {
+            throw new ServletException(e);
+        }
+    }
+}
+
+
+================================================================================
+FILE: D:\PATO4OK2020\Labs\Java2\Java2-6\src\main\java\by\vsu\servlets\students\SaveServlet.java
+================================================================================
+
+package by.vsu.servlets.students;
+
+import java.io.IOException;
+import java.time.LocalDate;
+
+import by.vsu.database.models.Student;
+import by.vsu.database.storages.StudentsStorage;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+@WebServlet("/students/save.html")
+public class SaveServlet extends HttpServlet {
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
+        try {
+            Student student = new Student(
+                    Integer.parseInt(req.getParameter("group_id")),
+                    req.getParameter("last_name"),
+                    req.getParameter("first_name"),
+                    req.getParameter("middle_name"),
+                    req.getParameter("sex"),
+                    LocalDate.parse(req.getParameter("birthday")),
+                    req.getParameter("fundingType"),
+                    Integer.parseInt(req.getParameter("failedExams")));
+
+            try {
+                String id = req.getParameter("id");
+                if (id == null) {
+                    StudentsStorage.create(student);
+                } else {
+                    student.setId(Integer.parseInt(id));
+                    StudentsStorage.update(student);
+                }
+            } catch (NumberFormatException e) {
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Некорректный id!");
+            }
+
+            resp.sendRedirect(req.getContextPath() + "/students/index.html");
+        } catch (IllegalArgumentException e) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
+    }
+}
+
+
+================================================================================
+FILE: D:\PATO4OK2020\Labs\Java2\Java2-6\src\main\java\by\vsu\servlets\users\DeleteServlet.java
+================================================================================
+
+package by.vsu.servlets.users;
+
+import java.io.IOException;
+import java.sql.SQLException;
+
+import by.vsu.database.storages.UsersStorage;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+@WebServlet("/users/delete.html")
+public class DeleteServlet extends HttpServlet {
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String[] ids = req.getParameterValues("id");
+        if (ids == null) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Выберить хотя бы 1 пользователя для удаления!");
+            return;
+        }
+
+        for (String id : ids) {
+            try {
+                UsersStorage.delete(Integer.parseInt(id));
+            } catch (NumberFormatException e) {
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Некорректный id: " + id + "!");
+            } catch (SQLException e) {
+                throw new ServletException(e);
+            }
+        }
+
+        resp.sendRedirect(req.getContextPath() + "/users/index.html");
+    }
+}
+
+
+================================================================================
+FILE: D:\PATO4OK2020\Labs\Java2\Java2-6\src\main\java\by\vsu\servlets\users\EditServlet.java
+================================================================================
+
+package by.vsu.servlets.users;
+
+import java.io.IOException;
+import java.sql.SQLException;
+
+import by.vsu.database.models.User;
+import by.vsu.database.storages.UsersStorage;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+@WebServlet("/users/edit.html")
+public class EditServlet extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            String idParam = req.getParameter("id");
+
+            if (idParam != null) {
+                Integer id = Integer.parseInt(idParam);
+                User user = UsersStorage.readById(id);
+                req.setAttribute("editUser", user);
+            }
+        } catch (NumberFormatException e) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Некорректный id!");
+            return;
+        } catch (SQLException e) {
+            throw new ServletException(e);
+        }
+
+        getServletContext().getRequestDispatcher("/WEB-INF/jsp/users/edit.jsp").forward(req, resp);
+    }
+}
+
+
+================================================================================
+FILE: D:\PATO4OK2020\Labs\Java2\Java2-6\src\main\java\by\vsu\servlets\users\ListServlet.java
+================================================================================
+
+package by.vsu.servlets.users;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.Collection;
+
+import by.vsu.database.models.User;
+import by.vsu.database.storages.UsersStorage;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+@WebServlet("/users/index.html")
+public class ListServlet extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            String sortParam = req.getParameter("sort");
+            Collection<User> users;
+            if (sortParam != null) {
+                users = UsersStorage.readAll(sortParam);
+            } else {
+                users = UsersStorage.readAll();
+            }
+            req.setAttribute("users", users);
+            getServletContext().getRequestDispatcher("/WEB-INF/jsp/users/list.jsp").forward(req, resp);
+        } catch (SQLException e) {
+            throw new ServletException(e);
+        }
+    }
+}
+
+
+================================================================================
+FILE: D:\PATO4OK2020\Labs\Java2\Java2-6\src\main\java\by\vsu\servlets\users\SaveServlet.java
+================================================================================
+
+package by.vsu.servlets.users;
+
+import java.io.IOException;
+
+import by.vsu.database.models.User;
+import by.vsu.database.storages.UsersStorage;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+@WebServlet("/users/save.html")
+public class SaveServlet extends HttpServlet {
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
+        try {
+            User user = new User(
+                    req.getParameter("login"),
+                    req.getParameter("password"),
+                    req.getParameter("role"));
+
+            try {
+                String id = req.getParameter("id");
+                if (id == null) {
+                    UsersStorage.create(user);
+                } else {
+                    user.setId(Integer.parseInt(id));
+                    UsersStorage.update(user);
+                }
+            } catch (NumberFormatException e) {
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Некорректный id!");
+            }
+            resp.sendRedirect(req.getContextPath() + "/users/index.html");
+
+        } catch (IllegalArgumentException e) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
+    }
+}
+
