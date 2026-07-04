@@ -1,0 +1,9 @@
+by\vsu\Book\Book.class
+by\vsu\servlets\ViewEditServlet.class
+by\vsu\Book\Storage.class
+by\vsu\servlets\SaveServlet.class
+by\vsu\servlets\DeleteServlet.class
+by\vsu\servlets\ListServlet.class
+by\vsu\servlets\ViewListServlet.class
+by\vsu\servlets\AppListener.class
+by\vsu\servlets\EditServlet.class

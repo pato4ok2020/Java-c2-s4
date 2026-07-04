@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee">
+     <display-name> Библиотека </display-name>
+     <welcome-file-list>
+          <welcom-file>index.html</welcom-file>
+     </welcome-file-list>
+     <servlet>
+          <servlet-name>ListServlet</servlet-name>
+          <servlet-class>by.vsu.servlets.ListServlet</servlet-class>
+     </servlet>
+     <servlet-mapping>
+          <servlet-name>ListServlet</servlet-name>
+          <url-pattern>/index.html</url-pattern>
+     </servlet-mapping>
+
+     <servlet>
+          <servlet-name>ViewListServlet</servlet-name>
+          <servlet-class>by.vsu.servlets.ViewListServlet</servlet-class>
+     </servlet>
+     <servlet-mapping>
+          <servlet-name>ViewListServlet</servlet-name>
+          <url-pattern>/WEB-INF/index.html</url-pattern>
+     </servlet-mapping>
+
+     <servlet>
+          <servlet-name>EditServlet</servlet-name>
+          <servlet-class>by.vsu.servlets.EditServlet</servlet-class>
+     </servlet>
+     <servlet-mapping>
+          <servlet-name>EditServlet</servlet-name>
+          <url-pattern>/edit.html</url-pattern>
+     </servlet-mapping>
+
+     <servlet>
+          <servlet-name>ViewEditServlet</servlet-name>
+          <servlet-class>by.vsu.servlets.ViewEditServlet</servlet-class>
+     </servlet>
+     <servlet-mapping>
+          <servlet-name>ViewEditServlet</servlet-name>
+          <url-pattern>/WEB-INF/edit.html</url-pattern>
+     </servlet-mapping>
+
+     <servlet>
+          <servlet-name>SaveServlet</servlet-name>
+          <servlet-class>by.vsu.servlets.SaveServlet</servlet-class>
+     </servlet>
+     <servlet-mapping>
+          <servlet-name>SaveServlet</servlet-name>
+          <url-pattern>/save.html</url-pattern>
+     </servlet-mapping>
+     <servlet>
+          <servlet-name>DeleteServlet</servlet-name>
+          <servlet-class>by.vsu.servlets.DeleteServlet</servlet-class>
+     </servlet>
+     <servlet-mapping>
+          <servlet-name>DeleteServlet</servlet-name>
+          <url-pattern>/delete.html</url-pattern>
+     </servlet-mapping>
+</web-app>
